@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import pkg from 'pg';
+import axios from 'axios';
 
 const port = 3001;
 const { Pool } = pkg;
