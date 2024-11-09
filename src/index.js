@@ -4,7 +4,7 @@ import Home from './screens/Home';
 import Authentication, { AuthenticationMode } from './screens/Authentication';
 import ErrorPage from './screens/ErrorPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute'
+import ProtectedRoute from './components/ProtectedRoute.js'
 import UserProvider from './context/UserProvider'
 
 const router = createBrowserRouter([
