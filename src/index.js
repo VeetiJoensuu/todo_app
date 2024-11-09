@@ -6,6 +6,7 @@ import ErrorPage from './screens/ErrorPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute.js'
 import UserProvider from './context/UserProvider'
+import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
   {

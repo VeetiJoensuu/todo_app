@@ -35,3 +35,5 @@ const deleteTask = async (req, res, next) => {
         return next(error);
     }
 }
+
+export { getTasks, postTask, deleteTask };

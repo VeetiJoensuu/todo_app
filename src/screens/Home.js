@@ -1,8 +1,8 @@
-import '.Home.css'
+import './Home.css'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Row from '../components/Row';
-import useUser from '/src/context/useUser.js';
+import { useUser } from '../context/useUser.js';
 
 const url = 'http://localhost:3001'
 
