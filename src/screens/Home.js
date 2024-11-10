@@ -52,19 +52,23 @@ function Home() {
   };
 
   return (
-    <div id="container">
-      <h3>Todos</h3>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        addTask();
-      }}>
+    <div id="home-container">
+      <h3 className="home-title">Todos</h3>
+      <form
+        className="home-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          addTask();
+        }}
+      >
         <input
+          className="home-input"
           placeholder='Add new task'
           value={task}
           onChange={e => setTask(e.target.value)}
         />
       </form>
-      <ul>
+      <ul className="home-list">
         {tasks.map(item => (
           <Row key={item.id} item={item} deleteTask={deleteTask} />
         ))}

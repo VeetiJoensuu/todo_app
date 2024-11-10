@@ -1,11 +1,70 @@
-#container {
-    padding: 16px;
+#home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: #e9ecef;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-li {
-    margin-bottom: 8px;
+.home-title {
+    margin-bottom: 1rem;
+    color: #333;
 }
 
-.delete-button {
-    margin-left: 16px;
+.home-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
+
+.home-input {
+    width: 80%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.home-list {
+    width: 100%;
+    max-width: 400px;
+    list-style: none;
+    padding: 0;
+}
+
+.home-item {
+    background: white;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-description {
+    flex-grow: 1;
+    margin-right: 1rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.home-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.home-button:hover {
+    background-color: #218838;
+}
+

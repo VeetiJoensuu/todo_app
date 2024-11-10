@@ -49,26 +49,28 @@ export default function Authentication({ authenticationMode }) {
     }, [user, signUp, signIn, authenticationMode, navigate]);
 
     return (
-        <div>
-            <h3>{authenticationMode === AuthenticationMode.Login ? 'Sign in' : 'Sign up'}</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(String(e.target.value))} required />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(String(e.target.value))} required />
-                </div>
-                <div>
-                    <button type="submit">{authenticationMode === AuthenticationMode.Login ? 'Login' : 'Submit'}</button>
-                </div>
-                <div>
-                    <Link to={authenticationMode === AuthenticationMode.Login ? '/signup' : '/signin'}>
-                        {authenticationMode === AuthenticationMode.Login ? 'No account? Sign up' : 'Already signed up? Sign in'}
-                    </Link>
-                </div>
-            </form>
+        <div className="auth-container">
+            <div className="auth-form">
+                <h3>{authenticationMode === AuthenticationMode.Login ? 'Sign in' : 'Sign up'}</h3>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(String(e.target.value))} required />
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" value={password} onChange={(e) => setPassword(String(e.target.value))} required />
+                    </div>
+                    <div>
+                        <button type="submit">{authenticationMode === AuthenticationMode.Login ? 'Login' : 'Submit'}</button>
+                    </div>
+                    <div>
+                        <Link to={authenticationMode === AuthenticationMode.Login ? '/signup' : '/signin'} className="link">
+                            {authenticationMode === AuthenticationMode.Login ? 'No account? Sign up' : 'Already signed up? Sign in'}
+                        </Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
