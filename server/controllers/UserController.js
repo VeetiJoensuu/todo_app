@@ -1,7 +1,8 @@
 import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
-import { insertUser, selectUserByEmail } from '../models/User.js';
-import { ApiError } from '../helpers/ApiError.js';
+import pkg from 'jsonwebtoken';
+import { pool } from '../helpers/db.js';
+
+const { sign } = pkg;
 
 const createUserObject = (id, email, token = undefined) => {
     return {
@@ -11,35 +12,35 @@ const createUserObject = (id, email, token = undefined) => {
     };
 };
 
-const postLogin = async (req, res, next) => {
-    const invalid_credentials_message = 'Invalid credentials.';
+export const postLogin = async (req, res, next) => {
+    const invalid_message = 'Invalid credentials.';
     try {
-        const userFromDb = await selectUserByEmail(req.body.email);
-        if (userFromDb.rowCount === 0) return next(new ApiError(invalid_credentials_message, 400));
+        const result = await pool.query('SELECT * FROM account WHERE email=$1', [req.body.email]);
+        if (result.rowCount === 0) return next(new Error(invalid_message));
         
-        const user = userFromDb.rows[0];
-        if (!await compare(req.body.password, user.password)) return next(new ApiError(invalid_credentials_message, 401));
+        const user = result.rows[0];
+        if (!await compare(req.body.password, user.password)) return next(new Error(invalid_message));
         
-        const token = sign({ id: user.id, email: req.body.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+        const token = sign({ user: req.body.email }, process.env.JWT_SECRET_KEY);
         return res.status(200).json(createUserObject(user.id, user.email, token));
     } catch (error) {
+        console.error('Error in postLogin:', error);
         return next(error);
     }
 };
 
-const postRegistration = async (req, res, next) => {
+export const postRegistration = async (req, res, next) => {
+    const { email, password } = req.body;
     try {
-        if (!req.body.email || req.body.email.length === 0) return next(new ApiError('Invalid email for user', 400));
-        if (!req.body.password || req.body.password.length < 8) return next(new ApiError('Invalid password for user', 400));
-        
-        const hashedPassword = await hash(req.body.password, 10);
-        const userFromDb = await insertUser(req.body.email, hashedPassword);
-        const user = userFromDb.rows[0];
-        
-        return res.status(201).json(createUserObject(user.id, user.email));
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            throw new Error('Email and password must be strings');
+        }
+        const hashedPassword = await hash(password, 10);
+        const result = await pool.query('INSERT INTO account (email, password) VALUES ($1, $2) RETURNING *', [email, hashedPassword]);
+        return res.status(201).json({ id: result.rows[0].id, email: result.rows[0].email });
     } catch (error) {
+        console.error('Error in postRegistration:', error);
         return next(error);
     }
 };
 
-export { postRegistration, postLogin };
