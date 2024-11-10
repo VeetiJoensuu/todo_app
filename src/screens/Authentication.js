@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Authentication.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../context/useUser';
 
 export const AuthenticationMode = Object.freeze({
@@ -9,7 +9,7 @@ export const AuthenticationMode = Object.freeze({
 });
 
 export default function Authentication({ authenticationMode }) {
-    const { signUp, signIn } = useUser();
+    const { user, setUser, signUp, signIn } = useUser();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,20 +21,33 @@ export default function Authentication({ authenticationMode }) {
         const sanitizedEmail = String(email).trim();
         const sanitizedPassword = String(password);
 
-        try {
-            if (authenticationMode === AuthenticationMode.Register) {
-                await signUp(sanitizedEmail, sanitizedPassword);
-                navigate('/signin');
-            } else {
-                await signIn(sanitizedEmail, sanitizedPassword);
-                navigate('/');
-            }
-        } catch (error) {
-            console.error(error);
-            const message = error.response && error.response.data ? error.response.data.error : error.message;
-            alert(message);
-        }
+        console.log('Email:', sanitizedEmail);
+        console.log('Password:', sanitizedPassword);
+
+        setUser({ email: sanitizedEmail, password: sanitizedPassword });
     };
+
+    useEffect(() => {
+        const loginOrRegister = async () => {
+            try {
+                if (authenticationMode === AuthenticationMode.Register) {
+                    await signUp();
+                    navigate('/signin');
+                } else {
+                    await signIn();
+                    navigate('/');
+                }
+            } catch (error) {
+                console.error(error);
+                const message = error.response && error.response.data ? error.response.data.error : error.message;
+                alert(message);
+            }
+        };
+
+        if (user.email && user.password) {
+            loginOrRegister();
+        }
+    }, [user, signUp, signIn, authenticationMode, navigate]);
 
     return (
         <div>

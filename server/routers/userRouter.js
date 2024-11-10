@@ -7,34 +7,33 @@ const { sign } = pkg;
 
 // Login route
 router.post('/login', (req, res, next) => {
+    console.log('Received login request:', req.body); // Log the request body
     const invalid_message = 'Invalid credentials.';
     try {
-        pool.query('select * from account where email=$1',
-            [req.body.email],
-            (error, result) => {
+        pool.query('SELECT * FROM account WHERE email=$1', [req.body.email], (error, result) => {
+            if (error) {
+                console.error('Error querying database:', error);
+                return next(error);
+            }
+            if (result.rowCount === 0) return next(new Error(invalid_message));
+
+            compare(req.body.password, result.rows[0].password, (error, match) => {
                 if (error) {
-                    console.error('Error querying database:', error);
+                    console.error('Error comparing passwords:', error);
                     return next(error);
                 }
-                if (result.rowCount === 0) return next(new Error(invalid_message));
+                if (!match) return next(new Error(invalid_message));
 
-                compare(req.body.password, result.rows[0].password, (error, match) => {
-                    if (error) {
-                        console.error('Error comparing passwords:', error);
-                        return next(error);
-                    }
-                    if (!match) return next(new Error(invalid_message));
+                const token = sign({ user: req.body.email }, process.env.JWT_SECRET_KEY);
+                const user = result.rows[0];
 
-                    const token = sign({ user: req.body.email }, process.env.JWT_SECRET_KEY);
-                    const user = result.rows[0];
-
-                    return res.status(200).json({
-                        'id': user.id,
-                        'email': user.email,
-                        'token': token
-                    });
+                return res.status(200).json({
+                    'id': user.id,
+                    'email': user.email,
+                    'token': token
                 });
             });
+        });
     } catch (error) {
         console.error('Unexpected error:', error);
         return next(error);
