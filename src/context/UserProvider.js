@@ -12,7 +12,7 @@ export default function UserProvider({ children }) {
         const json = JSON.stringify(user);
         const headers = { headers: { 'Content-Type': 'application/json' } };
         try {
-            console.log('Sign Up:', json); // Log user data
+            console.log('Sign Up:', json);
             await axios.post(url + '/user/register', json, headers);
             setUser({ email: '', password: '' });
         } catch (error) {
@@ -24,7 +24,7 @@ export default function UserProvider({ children }) {
         const json = JSON.stringify(user);
         const headers = { headers: { 'Content-Type': 'application/json' } };
         try {
-            console.log('Sign In:', json); // Log user data
+            console.log('Sign In:', json);
             const response = await axios.post(url + '/user/login', json, headers);
             const token = response.data.token;
             setUser(response.data);

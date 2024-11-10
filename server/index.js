@@ -5,7 +5,6 @@ import userRouter from './routers/userRouter.js';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 
-// Load environment variables from .env file
 dotenv.config();
 
 const generateSecretKey = () => {
@@ -24,7 +23,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Log incoming requests
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);
     console.log('Request Body:', req.body);
@@ -34,7 +32,6 @@ app.use((req, res, next) => {
 app.use('/', todoRouter);
 app.use('/user', userRouter);
 
-// Enhanced error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error Status:', err.statusCode || 500);
     console.error('Error Message:', err.message);

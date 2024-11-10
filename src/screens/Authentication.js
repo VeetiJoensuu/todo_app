@@ -17,7 +17,6 @@ export default function Authentication({ authenticationMode }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Ensure email and password are strings
         const sanitizedEmail = String(email).trim();
         const sanitizedPassword = String(password);
 

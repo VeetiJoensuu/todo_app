@@ -13,13 +13,13 @@ function Home() {
 
   useEffect(() => {
     axios.get(url, {
-      headers: { Authorization: user.token }
+      headers: { Authorization: `Bearer ${user.token}` }
     })
     .then(response => {
       setTasks(response.data);
     })
     .catch(error => {
-      alert(error.response.data.error ? error.response.data.error : error.message);
+      alert(error.response?.data?.error ? error.response.data.error : error.message);
     });
   }, [user.token]);
 
@@ -27,27 +27,27 @@ function Home() {
     axios.post(url + '/create', {
       description: task
     }, {
-      headers: { Authorization: user.token }
+      headers: { Authorization: `Bearer ${user.token}` }
     })
     .then(response => {
       setTasks([...tasks, { id: response.data.id, description: task }]);
       setTask('');
     })
     .catch(error => {
-      alert(error.response && error.response.data && error.response.data.error ? error.response.data.error : error.message);
+      alert(error.response?.data?.error ? error.response.data.error : error.message);
     });
   };
 
   const deleteTask = (id) => {
     axios.delete(url + '/delete/' + id, {
-      headers: { Authorization: user.token }
+      headers: { Authorization: `Bearer ${user.token}` }
     })
     .then(response => {
       const withoutRemoved = tasks.filter((item) => item.id !== id);
       setTasks(withoutRemoved);
     })
     .catch(error => {
-      alert(error.response.data.error ? error.response.data.error : error.message);
+      alert(error.response?.data?.error ? error.response.data.error : error.message);
     });
   };
 

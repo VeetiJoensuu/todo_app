@@ -5,9 +5,8 @@ import { hash, compare } from 'bcrypt';
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 
-// Login route
 router.post('/login', (req, res, next) => {
-    console.log('Received login request:', req.body); // Log the request body
+    console.log('Received login request:', req.body);
     const invalid_message = 'Invalid credentials.';
     try {
         pool.query('SELECT * FROM account WHERE email=$1', [req.body.email], (error, result) => {
@@ -40,7 +39,6 @@ router.post('/login', (req, res, next) => {
     }
 });
 
-// Register route
 router.post('/register', (req, res, next) => {
     console.log('Received registration request:', req.body);
 

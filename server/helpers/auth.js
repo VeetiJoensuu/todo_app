@@ -10,10 +10,14 @@ const auth = (req, res, next) => {
     }
 
     try {
-        const token = req.headers.authorization.split(' ')[1]; // Assuming 'Bearer <token>'
-        jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const token = req.headers.authorization.split(' ')[1];
+        console.log('Token:', token);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        console.log('Decoded:', decoded);
+        req.user = decoded;
         next();
     } catch (err) {
+        console.error('Error verifying token:', err);
         res.statusMessage = invalidCredentials;
         return res.status(403).json({ message: invalidCredentials });
     }

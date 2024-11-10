@@ -20,6 +20,7 @@ export const UserProvider = ({ children }) => {
         try {
             const response = await axios.post('http://localhost:3001/user/login', { email, password });
             setUser(response.data);
+            sessionStorage.setItem('user', JSON.stringify(response.data));
         } catch (error) {
             console.error('Error during sign-in:', error);
             throw error;
