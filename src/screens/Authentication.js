@@ -1,54 +1,62 @@
 import { Link, useNavigate } from 'react-router-dom';
-import './Authentication.css'
-import React from 'react'
-import { useUser } from '../context/useUser'
+import './Authentication.css';
+import React, { useState } from 'react';
+import { useUser } from '../context/useUser';
 
 export const AuthenticationMode = Object.freeze({
     Login: 'Login',
     Register: 'Register'
-})
+});
 
-export default function Authentication({authenticationMode}) {
-    const { user, setUser, signUp, signIn } = useUser()
-    const navigate = useNavigate()
+export default function Authentication({ authenticationMode }) {
+    const { signUp, signIn } = useUser();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        // Ensure email and password are strings
+        const sanitizedEmail = String(email).trim();
+        const sanitizedPassword = String(password);
+
         try {
             if (authenticationMode === AuthenticationMode.Register) {
-                await signUp()
-                navigate('/signin')
+                await signUp(sanitizedEmail, sanitizedPassword);
+                navigate('/signin');
             } else {
-                await signIn()
-                navigate("/")
+                await signIn(sanitizedEmail, sanitizedPassword);
+                navigate('/');
             }
-        } catch(error) {
-            const message = error.response && error.response.data ? error.response.data.error : error
-            alert(message)
+        } catch (error) {
+            console.error(error);
+            const message = error.response && error.response.data ? error.response.data.error : error.message;
+            alert(message);
         }
-    }
+    };
 
     return (
         <div>
-            <h3>{authenticationMode === authenticationMode.Login ? 'Sign in' : 'Sign up'}</h3>
-            <form>
+            <h3>{authenticationMode === AuthenticationMode.Login ? 'Sign in' : 'Sign up'}</h3>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email</label>
-                    <input type="email" />
+                    <input type="email" value={email} onChange={(e) => setEmail(String(e.target.value))} required />
                 </div>
                 <div>
                     <label>Password</label>
-                    <input type="password" />
+                    <input type="password" value={password} onChange={(e) => setPassword(String(e.target.value))} required />
                 </div>
                 <div>
-                    <button>{authenticationMode === authenticationMode.Login ? 'Login' : 'Submit'}</button>
+                    <button type="submit">{authenticationMode === AuthenticationMode.Login ? 'Login' : 'Submit'}</button>
                 </div>
                 <div>
-                    <Link>
+                    <Link to={authenticationMode === AuthenticationMode.Login ? '/signup' : '/signin'}>
                         {authenticationMode === AuthenticationMode.Login ? 'No account? Sign up' : 'Already signed up? Sign in'}
                     </Link>
                 </div>
             </form>
         </div>
-    )
+    );
 }

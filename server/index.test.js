@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import fetch from 'node-fetch'; // Import node-fetch for making HTTP requests
+import fetch from 'node-fetch';
 import { initializeTestDb, insertTestUser, getToken } from '../helpers/test.js';
 
 const base_url = 'http://localhost:3001';
