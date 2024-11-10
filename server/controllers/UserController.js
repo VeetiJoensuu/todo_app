@@ -1,6 +1,6 @@
 import { hash, compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-import { insertUser, selectUserByEmail } from "../models/User.js";
+import { insertUser, selectUserByEmail } from '../models/User.js';
 import { ApiError } from '../helpers/ApiError.js';
 
 const createUserObject = (id, email, token = undefined) => {
