@@ -90,7 +90,7 @@ describe('Task Management', () => {
 
         const token = getToken(email);
 
-        it('5/7 - should delete a task', async () => {
+        it('should delete a task', async () => {
             const createResponse = await fetch(base_url + '/create', {
                 method: 'post',
                 headers: {
