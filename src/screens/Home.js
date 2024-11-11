@@ -55,6 +55,7 @@ function Home() {
     });
   };
 
+  // Renders the main interface of the Todo app, including the form for adding new tasks and the list of current tasks.
   return (
     <div id="home-container">
       <h3 className="home-title">Todos</h3>

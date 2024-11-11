@@ -10,7 +10,7 @@ export default function UserProvider({ children }) {
 
     const signUp = async () => {
         const json = JSON.stringify(user);
-        const headers = { headers: { 'Content-Type': 'application/json' } };
+        const headers = { headers: { 'Content-Type': 'application/json' } }; // Sends signup request
         try {
             console.log('Sign Up:', json);
             await axios.post(url + '/user/register', json, headers);
@@ -27,8 +27,8 @@ export default function UserProvider({ children }) {
             console.log('Sign In:', json);
             const response = await axios.post(url + '/user/login', json, headers);
             const token = response.data.token;
-            setUser(response.data);
-            sessionStorage.setItem("user", JSON.stringify(response.data));
+            setUser(response.data); // Updates user state with response data
+            sessionStorage.setItem("user", JSON.stringify(response.data)); // Stores user data in session storage
         } catch (error) {
             setUser({ email: '', password: '' });
             throw error;

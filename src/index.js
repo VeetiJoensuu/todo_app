@@ -35,6 +35,7 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // Wrap application with UserProvider for context
 // Provide the router to the app
+// Render the application
 root.render(
   <React.StrictMode>
     <UserProvider>

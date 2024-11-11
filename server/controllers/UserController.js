@@ -12,6 +12,7 @@ const createUserObject = (id, email, token = undefined) => {
     };
 };
 
+// Controller for user login
 export const postLogin = async (req, res, next) => {
     const invalid_message = 'Invalid credentials.';
     try {
@@ -29,6 +30,7 @@ export const postLogin = async (req, res, next) => {
     }
 };
 
+// Controller for user registration
 export const postRegistration = async (req, res, next) => {
     const { email, password } = req.body;
     try {

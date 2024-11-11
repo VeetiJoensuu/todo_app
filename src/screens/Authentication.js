@@ -11,8 +11,8 @@ export const AuthenticationMode = Object.freeze({
 export default function Authentication({ authenticationMode }) {
     const { user, setUser, signUp, signIn } = useUser();
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState(''); // State for email input
+    const [password, setPassword] = useState(''); // State for password input
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,21 +20,22 @@ export default function Authentication({ authenticationMode }) {
         const sanitizedEmail = String(email).trim();
         const sanitizedPassword = String(password);
 
-        console.log('Email:', sanitizedEmail);
-        console.log('Password:', sanitizedPassword);
+        console.log('Email:', sanitizedEmail); // Sanitize email input
+        console.log('Password:', sanitizedPassword); // Sanitize password input
 
-        setUser({ email: sanitizedEmail, password: sanitizedPassword });
+        setUser({ email: sanitizedEmail, password: sanitizedPassword }); // Update user state
     };
 
+    // Handle user login or registration
     useEffect(() => {
         const loginOrRegister = async () => {
             try {
                 if (authenticationMode === AuthenticationMode.Register) {
                     await signUp();
-                    navigate('/signin');
+                    navigate('/signin'); // Redirect to sign-in page after registration
                 } else {
                     await signIn();
-                    navigate('/');
+                    navigate('/'); // Redirect to home page after login
                 }
             } catch (error) {
                 console.error(error);
