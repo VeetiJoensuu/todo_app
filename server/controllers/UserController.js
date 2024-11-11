@@ -35,14 +35,20 @@ export const postRegistration = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         if (typeof email !== 'string' || typeof password !== 'string') {
-            throw new Error('Email and password must be strings');
+            const error = new Error('Email and password must be strings');
+            error.statusCode = 400;
+            return next(error);
         }
         const hashedPassword = await hash(password, 10);
         const result = await pool.query('INSERT INTO account (email, password) VALUES ($1, $2) RETURNING *', [email, hashedPassword]);
         return res.status(201).json({ id: result.rows[0].id, email: result.rows[0].email });
     } catch (error) {
-        console.error('Error in postRegistration:', error);
+        if (error.code === '23505') {
+            error.statusCode = 400;
+            error.message = 'Email already exists';
+        }
         return next(error);
     }
 };
+
 
