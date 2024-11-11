@@ -4,13 +4,15 @@ import axios from 'axios';
 import Row from '../components/Row';
 import { useUser } from '../context/useUser.js';
 
+// Base URL for the backend API
 const url = 'http://localhost:3001';
 
 function Home() {
   const { user } = useUser();
-  const [task, setTask] = useState('');
-  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState(''); // State for new task input
+  const [tasks, setTasks] = useState([]); // State for list of tasks
 
+  // Fetch tasks when the component mounts
   useEffect(() => {
     axios.get(url, {
       headers: { Authorization: `Bearer ${user.token}` }
@@ -23,6 +25,7 @@ function Home() {
     });
   }, [user.token]);
 
+  // Function to add a new task
   const addTask = () => {
     axios.post(url + '/create', {
       description: task
@@ -38,6 +41,7 @@ function Home() {
     });
   };
 
+  // Function to delete a task
   const deleteTask = (id) => {
     axios.delete(url + '/delete/' + id, {
       headers: { Authorization: `Bearer ${user.token}` }

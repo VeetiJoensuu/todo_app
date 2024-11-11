@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 const authorizationRequired = "Authorization required";
 const invalidCredentials = "Invalid credentials";
 
+// Middleware to authenticate requests using JWT
 const auth = (req, res, next) => {
     if (!req.headers.authorization) {
         res.statusMessage = authorizationRequired;

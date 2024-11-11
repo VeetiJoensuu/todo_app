@@ -1,6 +1,7 @@
 import { selectAllTasks, insertTask, deleteTaskById } from '../models/Task.js';
 import { emptyOrRows } from '../helpers/utils.js';
 
+// Controller to get all tasks
 const getTasks = async (req, res, next) => {
     try {
         const result = await selectAllTasks();
@@ -10,6 +11,7 @@ const getTasks = async (req, res, next) => {
     }
 };
 
+// Controller to create a new task
 const postTask = async (req, res, next) => {
     try {
         if (!req.body.description || req.body.description.length === 0) {
@@ -24,6 +26,7 @@ const postTask = async (req, res, next) => {
     }
 };
 
+// Controller to delete a task by id
 const deleteTask = async (req, res, next) => {
     try {
         const { id } = req.params;

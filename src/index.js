@@ -8,30 +8,33 @@ import ProtectedRoute from './components/ProtectedRoute.js'
 import UserProvider from './context/UserProvider'
 import reportWebVitals from './reportWebVitals';
 
+// Create a browser router for client-side routing
 const router = createBrowserRouter([
   {
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage /> // Route for handling errors
   },
   {
-    path: "/signin",
+    path: "/signin", // Route for sign-in page
     element: <Authentication authenticationMode={AuthenticationMode.Login} />
   },
   {
-    path: "/signup",
+    path: "/signup", // Route for sign-up page
     element: <Authentication authenticationMode={AuthenticationMode.Register} />
   },
   {
-    element: <ProtectedRoute />,
+    element: <ProtectedRoute />, // Protect routes that need authentication
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home />, // Home page route
       }
     ]
   }
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// Wrap application with UserProvider for context
+// Provide the router to the app
 root.render(
   <React.StrictMode>
     <UserProvider>

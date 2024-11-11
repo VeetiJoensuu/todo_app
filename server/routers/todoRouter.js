@@ -4,8 +4,8 @@ import { getTasks, postTask, deleteTask } from '../controllers/TaskController.js
 
 const router = Router();
 
-router.get('/', getTasks);
-router.post('/create', auth, postTask);
-router.delete('/delete/:id', deleteTask);
+router.get('/', getTasks); // Route to get all tasks
+router.post('/create', auth, postTask); // Route to create a new task (requires authentication)
+router.delete('/delete/:id', deleteTask); // Route to delete a task by id (requires authentication)
 
 export default router;
